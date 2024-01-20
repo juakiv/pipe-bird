@@ -1,6 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import Game from "./game";
 import { useUpdaringRef } from "./hooks/useUpdatingRef";
+import InGame from "./views/InGame.jsx";
+import Paused from "./views/Paused.jsx";
+import Guide from "./views/Guide.jsx";
+import GameOver from "./views/GameOver.jsx";
 
 function App() {
   const canvasRef = useRef(null);
@@ -44,15 +48,15 @@ function App() {
 
   const handleKeyPress = e => {
     if (e.code === "Space") {
-      if(viewRef.current === "guide" || viewRef.current === "game") {
-        game.jump();
-      } else if (viewRef.current === "gameover") {
-        game.restart();
-      }
+      game.jump();
     }
 
     if (e.code === "Escape") {
-      game.togglePause();
+      if(viewRef.current === "game" || viewRef.current === "paused") {
+        game.togglePause();
+      } else if(viewRef.current === "gameover") {
+        game.restart();
+      }
     }
   }
 
@@ -65,63 +69,10 @@ function App() {
 
   return (
     <div id="game-ui" style={{ maxWidth: clampedCanvasWidth() }}>
-      {view === "game" &&
-        <>
-          <button id="pause-button" onClick={() => game.togglePause()}></button>
-          <h1 id="score">Score: {score}</h1>
-        </>
-      }
-      {view === "paused" &&
-        <>
-          <h1 id="score">Score: {score}</h1>
-          <div id="paused-screen">
-            <h2>Paused</h2>
-            <button id="play-button" onClick={() => game.togglePause()}></button>
-          </div>
-        </>
-      }
-      {view === "guide" &&
-        <div id="start-guide">
-          <h2>Get Ready!</h2>
-          <div className="guide">
-            <div className="keyboard">
-              <div className="keyboard-row">
-                <div className="key"></div>
-                <div className="key"></div>
-                <div className="key"></div>
-                <div className="key"></div>
-                <div className="key"></div>
-              </div>
-              <div className="keyboard-row">
-                <div className="key"></div>
-                <div className="key space">SPACE</div>
-                <div className="key"></div>
-              </div>
-            </div>
-            <div className="guide-or">OR</div>
-            <div className="touch">CLICK<br />TAP</div>
-          </div>
-        </div>}
-      {view === "gameover" &&
-        <div id="game-over">
-          <h2>Game Over!</h2>
-          <div className="game-over-screen">
-            <div className={`game-over-medal ${score === 0 ? "medal-poop" : score < 10 ? "medal-bronze" : score < 20 ? "medal-silver" : "medal-gold"}`}>
-              {score === 0 ? "💩" : score < 10 ? "🥉" : score < 20 ? "🥈" : "🥇"}
-            </div>
-            <div className="game-over-score">
-              <span>
-                <h2>{score}</h2>
-                <p>Score</p>
-              </span>
-              <span>
-                <h2>{highScore}</h2>
-                <p>Highscore</p>
-              </span>
-            </div>
-          </div>
-          <button onClick={() => game.restart()}>Play Again</button>
-        </div>}
+      {view === "game" && <InGame score={score} pause={() => game.togglePause()} />}
+      {view === "paused" && <Paused score={score} play={() => game.togglePause()} />}
+      {view === "guide" && <Guide />}
+      {view === "gameover" && <GameOver score={score} highScore={highScore} restart={() => game.restart()} />}
       <canvas id="game" width={clampedCanvasWidth()} ref={canvasRef}></canvas>
     </div>
   )
