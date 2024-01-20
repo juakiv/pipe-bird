@@ -59,55 +59,64 @@ function App() {
   }
 
   return (
-    <div id="game-ui" style={{maxWidth: clampedCanvasWidth()}}>
-      {(view === "game" || view === "paused") &&
-      <>
-        <div className="pause-button" onClick={() => game.togglePause()}>pause</div>
-        <h1 id="score">Score: {score}</h1>
-      </>
+    <div id="game-ui" style={{ maxWidth: clampedCanvasWidth() }}>
+      {view === "game" &&
+        <>
+          <button id="pause-button" onClick={() => game.togglePause()}></button>
+          <h1 id="score">Score: {score}</h1>
+        </>
+      }
+      {view === "paused" &&
+        <>
+          <h1 id="score">Score: {score}</h1>
+          <div id="paused-screen">
+            <h2>Paused</h2>
+            <button id="play-button" onClick={() => game.togglePause()}></button>
+          </div>
+        </>
       }
       {view === "guide" &&
-      <div id="start-guide">
-        <h2>Get Ready!</h2>
-        <div className="guide">
-          <div className="keyboard">
-            <div className="keyboard-row">
-              <div className="key"></div>
-              <div className="key"></div>
-              <div className="key"></div>
-              <div className="key"></div>
-              <div className="key"></div>
+        <div id="start-guide">
+          <h2>Get Ready!</h2>
+          <div className="guide">
+            <div className="keyboard">
+              <div className="keyboard-row">
+                <div className="key"></div>
+                <div className="key"></div>
+                <div className="key"></div>
+                <div className="key"></div>
+                <div className="key"></div>
+              </div>
+              <div className="keyboard-row">
+                <div className="key"></div>
+                <div className="key space">SPACE</div>
+                <div className="key"></div>
+              </div>
             </div>
-            <div className="keyboard-row">
-              <div className="key"></div>
-              <div className="key space">SPACE</div>
-              <div className="key"></div>
-            </div>
+            <div className="guide-or">OR</div>
+            <div className="touch">CLICK<br />TAP</div>
           </div>
-          <div className="guide-or">OR</div>
-          <div className="touch">CLICK<br />TAP</div>
-        </div>
-      </div>}
+        </div>}
       {view === "gameover" &&
-      <div id="game-over">
-        <h2>Game Over!</h2>
-        <div className="game-over-screen">
-          <div className={`game-over-medal ${score === 0 ? "medal-poop" : score < 10 ? "medal-bronze" : score < 20 ? "medal-silver" : "medal-gold"}`}>
-            {score === 0 ? "💩" : score < 10 ? "🥉" : score < 20 ? "🥈" : "🥇"}
+        <div id="game-over">
+          <h2>Game Over!</h2>
+          <div className="game-over-screen">
+            <div className={`game-over-medal ${score === 0 ? "medal-poop" : score < 10 ? "medal-bronze" : score < 20 ? "medal-silver" : "medal-gold"}`}>
+              {score === 0 ? "💩" : score < 10 ? "🥉" : score < 20 ? "🥈" : "🥇"}
+            </div>
+            <div className="game-over-score">
+              <span>
+                <h2>{score}</h2>
+                <p>Score</p>
+              </span>
+              <span>
+                <h2>{highScore}</h2>
+                <p>Highscore</p>
+              </span>
+            </div>
           </div>
-          <div className="game-over-score">
-            <span>
-              <h2>{score}</h2>
-              <p>Score</p>
-            </span>
-            <span>
-              <h2>{highScore}</h2>
-              <p>Highscore</p>
-            </span>
-          </div>
-        </div>
-        <button onClick={() => game.restart()}>Play Again</button>
-      </div>}
+          <button onClick={() => game.restart()}>Play Again</button>
+        </div>}
       <canvas id="game" width={clampedCanvasWidth()} ref={canvasRef}></canvas>
     </div>
   )

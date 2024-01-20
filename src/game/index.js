@@ -80,11 +80,13 @@ class Game {
 
   #resume() {
     this.#paused = false;
+    this.#setViewFn("game");
     this.render();
   }
 
   #pause() {
     this.#paused = true;
+    this.#setViewFn("paused");
   }
 
   togglePause() {

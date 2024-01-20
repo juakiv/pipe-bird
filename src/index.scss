@@ -42,12 +42,36 @@ canvas {
   text-shadow: 0 2px 6px rgba(0 0 0 / 0.3);
 }
 
-.pause-button {
+#play-button, #pause-button {
+  background-image: url(/playbtn.png);
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#pause-button {
+  background-image: url(/pausebtn.png);
   position: absolute;
   top: 20px;
   left: 20px;
-  user-select: none;
   cursor: pointer;
+  z-index: 9;
+}
+
+
+#paused-screen {
+  position: absolute;
+  background: rgba(0 0 0 / 0.7);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
 #start-guide {
@@ -99,7 +123,7 @@ canvas {
         top: -4px;
         width: 11px;
         height: 15px;
-        background-image: url(/public/finger.png);
+        background-image: url(/finger.png);
       }
     }
   }
@@ -114,7 +138,7 @@ canvas {
 }
 
 .touch {
-  background-image: url(/public/mouse.png);
+  background-image: url(/mouse.png);
   background-repeat: no-repeat;
   width: 17px;
   height: 26px;
