@@ -58,6 +58,7 @@ class Game {
       { name: "bird_3", src: "/bird_3.png", type: "image" },
       { name: "whoosh", src: "/whoosh.mp3", type: "audio" },
       { name: "wallhit", src: "/wallhit.mp3", type: "audio" },
+      { name: "point", src: "/point.mp3", type: "audio" },
     ];
 
     const promises = assets.map(asset => {
@@ -99,6 +100,7 @@ class Game {
       this.#pipes.pipeSpeed += 0.3;
     }
     this.#setScoreFn(this.#score);
+    this.#playSound("point");
   }
 
   /**
