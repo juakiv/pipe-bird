@@ -2,7 +2,7 @@ class Pipes {
   #pipes = [];
   #context;
 
-  #pipeGap = 200;
+  #pipeGap = 180;
   #pipeWidth;
   #pipeSpeed = 3;
   #pipeSpace = 300;

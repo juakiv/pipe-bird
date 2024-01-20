@@ -9,11 +9,20 @@ class Bird {
   #velocity = 0;
   #jump = -12;
   #context;
-  #groundHeight;
+  #assets;
 
-  constructor(context, groundHeight) {
+  #birds;
+  #flapCounter = 0;
+  #lastTimestamp = new Date().getTime();
+
+  constructor(context, assets) {
     this.#context = context;
-    this.#groundHeight = groundHeight;
+    this.#assets = assets;
+
+    this.#width = assets.bird_1.width;
+    this.#height = assets.bird_1.height;
+
+    this.#birds = [assets.bird_1, assets.bird_2, assets.bird_1, assets.bird_3];
   }
 
   jump() {
@@ -24,15 +33,19 @@ class Bird {
     this.#velocity += this.#gravity;
     this.#y += this.#velocity;
 
-    if(this.#y + this.#height > this.#context.canvas.height - this.#groundHeight) {
-      this.#y = this.#context.canvas.height - this.#height - this.#groundHeight;
+    if(new Date().getTime() - this.#lastTimestamp > 120) {
+      this.#lastTimestamp = new Date().getTime();
+      this.#flapCounter += 1;
+    }
+
+    if(this.#y + this.#height > this.#context.canvas.height - this.#assets.ground.height) {
+      this.#y = this.#context.canvas.height - this.#height - this.#assets.ground.height;
       this.#velocity = 0;
     }
   }
   
   draw() {
-    this.#context.fillStyle = this.#color;
-    this.#context.fillRect(this.#x, this.#y, this.#width, this.#height);
+    this.#context.drawImage(this.#birds[this.#flapCounter % this.#birds.length], this.#x, this.#y, this.#width, this.#height);
   }
 
   reset() {

@@ -27,7 +27,7 @@ class Game {
     this.#setViewFn = setViewFn;
     
     this.loadAssets().then(() => {
-      this.#bird = new Bird(this.#context, this.#assets.ground.height);
+      this.#bird = new Bird(this.#context, this.#assets);
       this.#pipes = new Pipes(this.#context, () => this.updateScore(), this.#assets);
 
       this.#paused = false;
@@ -41,6 +41,9 @@ class Game {
       { name: "pipeTop", src: "/pipe_top.png" },
       { name: "ground", src: "/ground.png" },
       { name: "background", src: "/background.png" },
+      { name: "bird_1", src: "/bird_1.png" },
+      { name: "bird_2", src: "/bird_2.png" },
+      { name: "bird_3", src: "/bird_3.png" },
     ];
 
     const promises = assets.map(asset => {
