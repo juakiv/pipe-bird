@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
+
 import Game from "./game";
 import { useUpdaringRef } from "./hooks/useUpdatingRef";
+
 import InGame from "./views/InGame.jsx";
 import Paused from "./views/Paused.jsx";
 import Guide from "./views/Guide.jsx";
@@ -28,12 +30,18 @@ function App() {
       document.addEventListener("keydown", e => handleKeyPress(e));
       canvasRef.current.addEventListener("click", () => game.jump());
 
-      window.addEventListener("resize", () => canvasRef.current.height = clampedCanvasHeight());
+      window.addEventListener("resize", () => {
+        canvasRef.current.height = clampedCanvasHeight();
+        canvasRef.current.width = clampedCanvasWidth();
+      });
     }
     return () => {
       document.removeEventListener("keydown", () => game.jump());
       canvasRef.current.removeEventListener("click", () => game.jump());
-      window.removeEventListener("resize", () => canvasRef.current.height = clampedCanvasHeight());
+      window.removeEventListener("resize", () => {
+        canvasRef.current.height = clampedCanvasHeight();
+        canvasRef.current.width = clampedCanvasWidth();
+      });
     }
   }, [game]);
 
