@@ -1,7 +1,7 @@
 function Guide() {
   return (
     <div id="start-guide">
-      <h2>Get Ready!</h2>
+      <h1>Get Ready!</h1>
       <div className="guide">
         <div className="keyboard">
           <div className="keyboard-row">
