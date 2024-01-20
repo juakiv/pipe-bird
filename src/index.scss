@@ -2,8 +2,9 @@
   box-sizing: border-box;
 }
 
-body, html {
-  touch-action: manipulation;
+body,
+html {
+  min-height: 100vh;
   margin: 0;
   background-color: #232323;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -24,7 +25,9 @@ body {
 }
 
 canvas {
-  background-color: #444444;
+  background-color: #062632;
+  background-image: url(/background.png);
+  background-repeat: repeat-x;
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0 0 0 / 0.3);
   user-select: none;
@@ -44,6 +47,7 @@ canvas {
 
   padding: 80px;
   background-color: rgba(0 0 0 / 0.6);
+  border-radius: 6px;
 }
 
 #score {
@@ -59,7 +63,8 @@ canvas {
   z-index: 9;
 }
 
-#play-button, #pause-button {
+#play-button,
+#pause-button {
   background-image: url(/playbtn.png);
   background-repeat: no-repeat;
   width: 20px;
@@ -111,10 +116,12 @@ canvas {
 .keyboard {
   display: flex;
   flex-direction: column;
+
   &-row {
     display: flex;
     flex-direction: row;
   }
+
   .key {
     border: 1px solid black;
     background-color: white;
@@ -123,6 +130,7 @@ canvas {
     border-radius: 3px;
     margin: 1px;
     opacity: 0.4;
+
     &.space {
       width: 37px;
       font-size: 9px;
@@ -132,6 +140,7 @@ canvas {
       padding-right: 2px;
       opacity: 1;
       color: black;
+
       &::after {
         content: "";
         display: block;
@@ -167,6 +176,7 @@ canvas {
   animation: slide-up 0.4s ease-in-out;
   text-align: center;
   align-items: center;
+
   h1 {
     color: white;
     text-shadow: 0 2px 6px rgba(0 0 0 / 0.3);
@@ -187,6 +197,7 @@ canvas {
     margin-bottom: 20px;
     box-shadow: 0 2px 6px rgba(0 0 0 / 0.3);
   }
+
   &-medal {
     position: relative;
     border-radius: 50%;
@@ -198,6 +209,7 @@ canvas {
     font-size: 42px;
     text-shadow: 0 2px 6px rgba(0 0 0 / 0.3);
     box-shadow: 0 2px 8px rgba(0 0 0 / 0.3), inset 0 2px 6px rgba(0 0 0 / 0.2);
+
     &::before {
       content: "";
       position: absolute;
@@ -206,18 +218,33 @@ canvas {
       border-radius: 50%;
       background: linear-gradient(to bottom, rgba(0 0 0 / 0), rgba(0 0 0 / 0.3));
     }
-    &.medal-poop { background-color: #dfbdb4; }
-    &.medal-bronze { background-color: #dfbb97; }
-    &.medal-silver { background-color: #d9cfcf; }
-    &.medal-gold { background-color: #f3cd8f; }
+
+    &.medal-poop {
+      background-color: #dfbdb4;
+    }
+
+    &.medal-bronze {
+      background-color: #dfbb97;
+    }
+
+    &.medal-silver {
+      background-color: #d9cfcf;
+    }
+
+    &.medal-gold {
+      background-color: #f3cd8f;
+    }
   }
+
   &-score {
     margin-left: 20px;
     text-align: center;
+
     span {
       display: block;
       margin: 10px 0;
     }
+
     h2 {
       margin: 0;
       font-weight: 900;
@@ -225,6 +252,7 @@ canvas {
       -webkit-text-stroke: 2px black;
       color: white;
     }
+
     p {
       margin: 0;
       text-transform: uppercase;
@@ -238,6 +266,7 @@ canvas {
     transform: translateY(20px);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0px);
     opacity: 1;
@@ -259,4 +288,25 @@ button {
 
   text-shadow: 0 1px 0 rgba(0 0 0 / 0.8);
   box-shadow: 0 2px 6px rgba(0 0 0 / 0.3);
+}
+
+.loader {
+  border: 6px solid white;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+
+  width: 60px;
+  height: 60px;
+
+  animation: loader 1s linear infinite;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

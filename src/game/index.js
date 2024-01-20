@@ -27,6 +27,8 @@ class Game {
     this.#setViewFn = setViewFn;
     
     this.loadAssets().then(() => {
+      this.#setViewFn("guide");
+
       this.#bird = new Bird(this.#context, this.#assets);
       this.#pipes = new Pipes(this.#context, () => this.updateScore(), this.#assets);
 
@@ -52,7 +54,7 @@ class Game {
         image.src = asset.src;
         image.onload = () => {
           this.#assets[asset.name] = image;
-          resolve();
+          setTimeout(() => resolve(), 500);
         };
         image.onerror = () => {
           reject();

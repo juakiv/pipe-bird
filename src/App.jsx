@@ -5,13 +5,14 @@ import InGame from "./views/InGame.jsx";
 import Paused from "./views/Paused.jsx";
 import Guide from "./views/Guide.jsx";
 import GameOver from "./views/GameOver.jsx";
+import Loading from "./views/Loading.jsx";
 
 function App() {
   const canvasRef = useRef(null);
   const [game, setGame] = useState(null);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [view, setView, viewRef] = useUpdaringRef("guide");
+  const [view, setView, viewRef] = useUpdaringRef("loading");
 
   useEffect(() => {
     if (canvasRef.current !== null) {
@@ -69,6 +70,7 @@ function App() {
 
   return (
     <div id="game-ui" style={{ maxWidth: clampedCanvasWidth() }}>
+      {view === "loading" && <Loading />}
       {view === "game" && <InGame score={score} pause={() => game.togglePause()} />}
       {view === "paused" && <Paused score={score} play={() => game.togglePause()} />}
       {view === "guide" && <Guide />}
