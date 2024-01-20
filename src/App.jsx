@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import Game from "./game";
+import { useUpdaringRef } from "./hooks/useUpdatingRef";
 
 function App() {
   const canvasRef = useRef(null);
   const [game, setGame] = useState(null);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [view, setView] = useState("guide");
+  const [view, setView, viewRef] = useUpdaringRef("guide");
 
   useEffect(() => {
     if (canvasRef.current !== null) {
@@ -43,7 +44,11 @@ function App() {
 
   const handleKeyPress = e => {
     if (e.code === "Space") {
-      game.jump();
+      if(viewRef.current === "guide" || viewRef.current === "game") {
+        game.jump();
+      } else if (viewRef.current === "gameover") {
+        game.restart();
+      }
     }
 
     if (e.code === "Escape") {
