@@ -39,26 +39,39 @@ class Game {
 
   loadAssets() {
     const assets = [
-      { name: "pipeBottom", src: "/pipe_bottom.png" },
-      { name: "pipeTop", src: "/pipe_top.png" },
-      { name: "ground", src: "/ground.png" },
-      { name: "background", src: "/background.png" },
-      { name: "bird_1", src: "/bird_1.png" },
-      { name: "bird_2", src: "/bird_2.png" },
-      { name: "bird_3", src: "/bird_3.png" },
+      { name: "pipeBottom", src: "/pipe_bottom.png", type: "image" },
+      { name: "pipeTop", src: "/pipe_top.png", type: "image" },
+      { name: "ground", src: "/ground.png", type: "image" },
+      { name: "background", src: "/background.png", type: "image" },
+      { name: "bird_1", src: "/bird_1.png", type: "image" },
+      { name: "bird_2", src: "/bird_2.png", type: "image" },
+      { name: "bird_3", src: "/bird_3.png", type: "image" },
+      { name: "whoosh", src: "/whoosh.mp3", type: "audio" },
     ];
 
     const promises = assets.map(asset => {
       return new Promise((resolve, reject) => {
-        const image = new Image();
-        image.src = asset.src;
-        image.onload = () => {
-          this.#assets[asset.name] = image;
-          setTimeout(() => resolve(), 500);
-        };
-        image.onerror = () => {
-          reject();
-        };
+        if(asset.type === "audio") {
+          const audio = new Audio();
+          audio.src = asset.src;
+          audio.oncanplaythrough = () => {
+            this.#assets[asset.name] = audio;
+            setTimeout(() => resolve(), 500);
+          };
+          audio.onerror = () => {
+            reject();
+          };
+        } else {
+          const image = new Image();
+          image.src = asset.src;
+          image.onload = () => {
+            this.#assets[asset.name] = image;
+            setTimeout(() => resolve(), 500);
+          };
+          image.onerror = () => {
+            reject();
+          };
+        }
       });
     });
 
@@ -73,6 +86,12 @@ class Game {
     this.#setScoreFn(this.#score);
   }
 
+  #playSound(sound) {
+    if(this.#assets[sound]) {
+      this.#assets.whoosh.cloneNode(true).play();
+    }
+  }
+
   jump() {
     if(this.#paused || this.#roundHasEnded) return;
 
@@ -82,6 +101,7 @@ class Game {
     }
 
     this.#bird.jump();
+    this.#playSound("whoosh");
   }
 
   #resume() {
