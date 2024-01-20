@@ -47,6 +47,7 @@ class Game {
       { name: "bird_2", src: "/bird_2.png", type: "image" },
       { name: "bird_3", src: "/bird_3.png", type: "image" },
       { name: "whoosh", src: "/whoosh.mp3", type: "audio" },
+      { name: "wallhit", src: "/wallhit.mp3", type: "audio" },
     ];
 
     const promises = assets.map(asset => {
@@ -56,7 +57,7 @@ class Game {
           audio.src = asset.src;
           audio.oncanplaythrough = () => {
             this.#assets[asset.name] = audio;
-            setTimeout(() => resolve(), 500);
+            setTimeout(() => resolve(), 300);
           };
           audio.onerror = () => {
             reject();
@@ -66,7 +67,7 @@ class Game {
           image.src = asset.src;
           image.onload = () => {
             this.#assets[asset.name] = image;
-            setTimeout(() => resolve(), 500);
+            setTimeout(() => resolve(), 300);
           };
           image.onerror = () => {
             reject();
@@ -88,7 +89,7 @@ class Game {
 
   #playSound(sound) {
     if(this.#assets[sound]) {
-      this.#assets.whoosh.cloneNode(true).play();
+      this.#assets[sound].cloneNode(true).play();
     }
   }
 
@@ -159,6 +160,9 @@ class Game {
     this.#bird.draw();
 
     if(this.#pipes.isColliding(this.#bird)) {
+      if(this.#roundHasStarted) {
+        this.#playSound("wallhit");
+      }
       this.#roundHasStarted = false;
       this.#roundHasEnded = true;
       this.#setViewFn("gameover");
