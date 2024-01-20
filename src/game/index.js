@@ -19,6 +19,12 @@ class Game {
   #bird;
   #pipes;
 
+  /**
+   * Create a new Game instance.
+   * @param canvas The canvas element to render to.
+   * @param setScoreFn The function to call when the score needs to be changed.
+   * @param setViewFn The function to call when the view needs to be changed.
+   */
   constructor(canvas, setScoreFn, setViewFn) {
     this.#canvas = canvas;
     this.#context = canvas.getContext("2d");
@@ -37,6 +43,10 @@ class Game {
     });
   }
 
+  /**
+   * Load all required assets and sound effects.
+   * @returns {Promise} A promise that resolves when all assets have been loaded.
+   */
   loadAssets() {
     const assets = [
       { name: "pipeBottom", src: "/pipe_bottom.png", type: "image" },
@@ -79,6 +89,10 @@ class Game {
     return Promise.all(promises);
   }
 
+  /**
+   * Update the score and increase the pipe speed if the score is a multiple of 5.
+   * @returns {void}
+   */
   updateScore() {
     this.#score += 1;
     if(this.#score % 5 === 0) {
@@ -87,12 +101,21 @@ class Game {
     this.#setScoreFn(this.#score);
   }
 
+  /**
+   * Play a sound effect.
+   * @param {string} sound The asset name of the sound to play.
+   * @returns {void}
+   */
   #playSound(sound) {
     if(this.#assets[sound]) {
       this.#assets[sound].cloneNode(true).play();
     }
   }
 
+  /**
+   * Jump the bird. If the round has not started, start the round.
+   * @returns {void}
+   */
   jump() {
     if(this.#paused || this.#roundHasEnded) return;
 
@@ -105,17 +128,29 @@ class Game {
     this.#playSound("whoosh");
   }
 
+  /**
+   * Resume the game. Sets the view to "game".
+   * @returns {void}
+   */
   #resume() {
     this.#paused = false;
     this.#setViewFn("game");
     this.render();
   }
 
+  /**
+   * Pause the game. Sets the view to "paused".
+   * @returns {void}
+   */
   #pause() {
     this.#paused = true;
     this.#setViewFn("paused");
   }
 
+  /**
+   * Toggle pause state
+   * @returns {void}
+   */
   togglePause() {
     if(this.#roundHasEnded || !this.#roundHasStarted) return;
 
@@ -126,6 +161,10 @@ class Game {
     }
   }
 
+  /**
+   * Restart the game
+   * @returns {void}
+   */
   restart() {
     this.#score = 0;
     this.#setScoreFn(this.#score);
@@ -143,6 +182,10 @@ class Game {
     }
   }
 
+  /**
+   * Main render loop
+   * @returns {void}
+   */
   render() {
     if(this.#paused) return;
     

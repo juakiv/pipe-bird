@@ -51,16 +51,24 @@ function App() {
     }
   }, [score]);
 
+  /**
+   * Updates the score.
+   * @param {number} newScore The new score to update to.
+   */
   const updateScore = newScore => {
     setScore(newScore);
   }
 
-  const handleKeyPress = e => {
-    if (e.code === "Space") {
+  /**
+   * Handle keypresses.
+   * @param {Event} e The keypress event.
+   */
+  const handleKeyPress = event => {
+    if (event.code === "Space") {
       game.jump();
     }
 
-    if (e.code === "Escape") {
+    if (event.code === "Escape") {
       if(viewRef.current === "game" || viewRef.current === "paused") {
         game.togglePause();
       } else if(viewRef.current === "gameover") {
@@ -69,9 +77,18 @@ function App() {
     }
   }
 
+  /**
+   * Clamp the canvas height between 600 and 800 according to the window height.
+   * @returns {number} The clamped canvas height.
+   */
   const clampedCanvasHeight = () => {
     return Math.min(Math.max(window.innerHeight, 600), 800);
   }
+
+  /**
+   * Clamp the canvas width between 300 and 500 according to the window width.
+   * @returns {number} The clamped canvas width.
+   */
   const clampedCanvasWidth = () => {
     return Math.min(Math.max(window.innerWidth, 300), 500);
   }

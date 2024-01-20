@@ -16,6 +16,12 @@ class Pipes {
   #groundX = 0;
   #backgroundX = 0;
 
+  /**
+   * Create a new Pipes instance. Creates the first pipe.
+   * @param context The canvas context.
+   * @param updateScoreFn The function to call when the score is updated.
+   * @param assets A list of loaded assets.
+   */
   constructor(context, updateScoreFn, assets) {
     this.#context = context;
     this.#updateScoreFn = updateScoreFn;
@@ -26,14 +32,10 @@ class Pipes {
     this.createPipe(true);
   }
 
-  get pipeSpeed() {
-    return this.#pipeSpeed;
-  }
-
-  set pipeSpeed(speed) {
-    this.#pipeSpeed = Math.min(Math.max(speed, 3), 10);
-  }
-
+  /**
+   * Create a new pipe.
+   * @param {boolean} initial Whether this is the first pipe or not.
+   */
   createPipe(initial = false) {
     this.#pipes.push({
       x: initial ? this.#context.canvas.width + this.#pipeWidth * 2 : this.#context.canvas.width,
@@ -47,6 +49,11 @@ class Pipes {
     });
   }
 
+  /**
+   * Update the pipe positions, background and ground and create new pipes when necessary.
+   * Also update the score when a pipe has passed.
+   * @returns {void}
+   */
   update() {
     this.#groundX -= this.#pipeSpeed;
     if(this.#groundX <= -this.#assets.ground.width) this.#groundX = 0;
@@ -68,6 +75,10 @@ class Pipes {
     }
   }
 
+  /**
+   * Draw the pipes, background and ground.
+   * @returns {void}
+   */
   draw() {
     this.#context.drawImage(this.#assets.background, Math.round(this.#backgroundX), 0);
     this.#context.drawImage(this.#assets.background, Math.round(this.#backgroundX + this.#assets.background.width), 0);
@@ -81,6 +92,11 @@ class Pipes {
     this.#context.drawImage(this.#assets.ground, Math.round(this.#groundX + this.#assets.ground.width), this.#context.canvas.height - this.#assets.ground.height);
   }
 
+  /**
+   * Check if the bird is colliding with a pipe or the ground or ceiling.
+   * @param {Bird} bird The bird to check for collisions with.
+   * @returns {boolean} Whether the bird is colliding or not.
+   */
   isColliding(bird) {
     for(let i = this.#pipes.length - 1; i >= 0; i--) {
       if (
@@ -93,12 +109,32 @@ class Pipes {
     }
   }
 
+  /**
+   * Reset the pipes to their initial state. Also creates the first pipe.
+   * @returns {void}
+   */
   reset() {
     this.#pipes = [];
     this.#pipeSpeed = 3;
     this.createPipe(true);
   }
 
+  /**
+   * Get the pipe speed.
+   * @returns {number} The pipe speed.
+   */
+  get pipeSpeed() {
+    return this.#pipeSpeed;
+  }
+
+  /**
+   * Set the pipe speed. Clamps the value between 3 and 10.
+   * @param {number} speed The new pipe speed.
+   * @returns {void}
+   */
+  set pipeSpeed(speed) {
+    this.#pipeSpeed = Math.min(Math.max(speed, 3), 10);
+  }
 
 }
 
