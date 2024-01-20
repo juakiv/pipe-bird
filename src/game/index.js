@@ -39,7 +39,8 @@ class Game {
     const assets = [
       { name: "pipeBottom", src: "/pipe_bottom.png" },
       { name: "pipeTop", src: "/pipe_top.png" },
-      { name: "ground", src: "/ground.png" }
+      { name: "ground", src: "/ground.png" },
+      { name: "background", src: "/background.png" },
     ];
 
     const promises = assets.map(asset => {

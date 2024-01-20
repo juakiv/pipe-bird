@@ -14,6 +14,7 @@ class Pipes {
   #assets;
 
   #groundX = 0;
+  #backgroundX = 0;
 
   constructor(context, updateScoreFn, assets) {
     this.#context = context;
@@ -50,6 +51,9 @@ class Pipes {
     this.#groundX -= this.#pipeSpeed;
     if(this.#groundX <= -this.#assets.ground.width) this.#groundX = 0;
 
+    this.#backgroundX -= Math.round(this.#pipeSpeed / 2);
+    if(this.#backgroundX <= -this.#assets.background.width) this.#backgroundX = 0;
+
     this.#pipes.forEach(pipe => {
       pipe.x -= this.#pipeSpeed;
     });
@@ -65,6 +69,9 @@ class Pipes {
   }
 
   draw() {
+    this.#context.drawImage(this.#assets.background, Math.round(this.#backgroundX), 0);
+    this.#context.drawImage(this.#assets.background, Math.round(this.#backgroundX + this.#assets.background.width), 0);
+
     this.#pipes.forEach(pipe => {
       this.#context.drawImage(this.#assets.pipeTop, pipe.x, pipe.y - this.#assets.pipeTop.height, this.#pipeWidth, this.#assets.pipeTop.height);
       this.#context.drawImage(this.#assets.pipeBottom, pipe.x, pipe.y + this.#pipeGap, this.#pipeWidth, this.#assets.pipeBottom.height);
