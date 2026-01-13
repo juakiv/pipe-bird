@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 import Game from "./game";
-import { useUpdaringRef } from "./hooks/useUpdatingRef";
+import { useUpdatingRef } from "./hooks/useUpdatingRef";
 
 import InGame from "./views/InGame.jsx";
 import Paused from "./views/Paused.jsx";
@@ -14,7 +14,7 @@ function App() {
   const [game, setGame] = useState(null);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
-  const [view, setView, viewRef] = useUpdaringRef("loading");
+  const [view, setView, viewRef] = useUpdatingRef("loading");
 
   useEffect(() => {
     if (canvasRef.current !== null) {

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
  * @param {*} initialValue The initial value of the ref.
  * @returns A tuple containing the value, a setter for the value and the ref.
  */
-export function useUpdaringRef(initialValue) {
+export function useUpdatingRef(initialValue) {
   const [value, setValue] = useState(initialValue);
 
   const ref = useRef(value);
